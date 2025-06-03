@@ -1,0 +1,11 @@
+HTTP Request (np. POST /tasks)
+      ↓
+TasksController (np. create())
+      ↓
+TasksService (np. create(dto))
+      ↓
+Logika: walidacja / zapis / response
+      ↓
+Kontroler zwraca response
+      ↓
+HTTP Response → do klienta
