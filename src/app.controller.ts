@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Inject, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ClientProxy } from '@nestjs/microservices';
-import { Response } from 'express';
+import { Observable } from 'rxjs';
+import { IUser } from './user/user.controller';
 
 @Controller()
 export class AppController {
@@ -13,16 +14,16 @@ export class AppController {
   ) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getHello(): Observable<IUser[]> {
+    return this.userClient.send('get-users', {}) as unknown as Observable<
+      IUser[]
+    >;
   }
 
   @Post('/user')
   createUser(
     @Body() body: { id: string; mail: string; name: string },
-    @Res() res: Response,
-  ) {
-    const newUser = this.userClient.send('create-user', body);
-    return res.status(201).json(newUser);
+  ): Observable<any> {
+    return this.userClient.send('create-user', body);
   }
 }
