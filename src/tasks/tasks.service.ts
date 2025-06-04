@@ -21,7 +21,9 @@ export class TasksService {
   }
 
   create(data: { title: string; description: string }): Task {
-    const newTask = { id: uuidv4(), ...data };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const id: string = uuidv4() as string;
+    const newTask: Task = { id, ...data };
     this.tasks.push(newTask);
     return newTask;
   }
